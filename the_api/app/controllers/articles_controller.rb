@@ -1,5 +1,7 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show update destroy ]
+  before_action :authenticate_user!, only: %i[ create]
+  before_action :authorize_user!, only: %i[ update destroy]
 
   # GET /articles
   def index
@@ -16,6 +18,7 @@ class ArticlesController < ApplicationController
   # POST /articles
   def create
     @article = Article.new(article_params)
+    @article.user = current_user
 
     if @article.save
       render json: @article, status: :created, location: @article
@@ -46,6 +49,12 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.fetch(:article, {})
+      params.require(:article).permit(:title, :content)
+    end
+    
+    def authorize_user!
+      unless current_user == @article.user
+        render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+      end
     end
 end
