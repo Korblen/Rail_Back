@@ -19,24 +19,11 @@ end
 
 # Get the default user
 user = User.find_by(email: default_email)
+uuser = User.all
 
 # Create some sample articles for the default user
-articles_data = [
-  {
-    title: "The Power of Habit",
-    content: "This article explores the science behind habits and how to change them."
-  },
-  {
-    title: "Mindfulness in Everyday Life",
-    content: "Discover how mindfulness can reduce stress and improve well-being."
-  },
-  {
-    title: "The Art of Storytelling",
-    content: "Learn the elements of a compelling story and how to craft your own."
-  },
-  # Add more article data as needed
-]
-
-articles_data.each do |article_data|
-  user.articles.create!(article_data)
+uuser.each do |user|
+  30.times do |i|
+    user.articles.create!(title: "Article #{i}", content: "Content for article #{i}")
+  end
 end

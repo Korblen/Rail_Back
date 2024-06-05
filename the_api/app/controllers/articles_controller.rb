@@ -54,7 +54,7 @@ class ArticlesController < ApplicationController
     
     def authorize_user!
       unless current_user == @article.user
-        render json: { error: 'You are not authorized to perform this action' }, status: :forbidden
+        render json: { error: 'You are not authorized to perform this action lol' }, status: :forbidden
       end
     end
 end
